@@ -1,11 +1,32 @@
+name: Node.js CI
+
 on: push
 
 jobs:
   build-node:
     runs-on: ubuntu-latest
-    container: node:20
+
     steps:
-      - run: node --version
-      - run: npm --version
-      - uses: actions/setup-node@v3
-      - run: node main.js
+      # Check out the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js with the specified version
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Verify Node.js and npm versions
+      - name: Check Node and npm versions
+        run: |
+          node --version
+          npm --version
+
+      # Run your Node.js script
+      - name: Run main.js
+        run: node main.js
